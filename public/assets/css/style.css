@@ -1,0 +1,500 @@
+/* jquery validate start */
+.error {
+    color: #f00;
+}
+/* jquery validate start  */
+
+/* what is my ip - start */
+.cust-map-dimensions {
+    width: 100%;
+    height: 400px;
+}
+/* what is my ip end */
+
+h3 {
+    white-space: normal !important;
+}
+.cust-textarea-console {
+    padding: 10px;
+    width: 100%;
+    color: #00bc8c;
+    font-family: monospace;
+    line-height: 1;
+    clear: both;
+    float: left;
+}
+.cust-word-wrap-break-word {
+    word-wrap: break-word;
+}
+.cust-container {
+    padding: 1px;
+
+    text-align: center;
+    height: 100%;
+}
+
+.cust-main-body {
+    margin: 0px !important;
+    height: 100%;
+    background-color: #4c4c4c;
+}
+
+.FooterBarContent {
+    color: #ddd;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    text-align: left;
+}
+.FooterBar {
+    background-color: rgb(34, 34, 34);
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+}
+.TopBar {
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+    height: 35px;
+    background-color: rgb(236, 240, 241);
+}
+.ContentBar {
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    margin: auto;
+    background-color: white;
+    max-width: 1200px;
+}
+.ContentBarContent {
+    margin: auto;
+    background-color: white;
+    padding: 40px;
+    text-align: left;
+}
+
+.MenuBarContent {
+    background-color: #222;
+    margin: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+    text-align: left;
+}
+.MenuBar {
+    margin: auto;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    max-width: 1200px;
+}
+.HeaderBar {
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    margin: auto;
+    max-width: 1200px;
+    height: 109.95px;
+    text-align: center;
+    background-image: url(https://d1h62blixv30ly.cloudfront.net/wp-content/uploads/2018/11/code-647012_1280.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+.SiteLogo {
+    -webkit-filter: invert(100%); /* Safari/Chrome */
+    filter: invert(100%);
+    max-width: 336px !important;
+    padding-left: 50px;
+    padding-top: 28px;
+    float: left;
+}
+
+.ContainImage {
+}
+
+.ContainSocialIcons {
+    background-image: url(https://d1h62blixv30ly.cloudfront.net/wp-content/uploads/2018/11/code-647012_1280.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100px;
+}
+
+.ContainDate {
+    text-align: center;
+    font-family: Ubuntu, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #404040;
+    padding-left: 40px;
+    padding-top: 7.5px;
+    margin-right: 15px;
+    margin-right: 0px;
+    margin-bottom: 7.5px;
+    width: 125px;
+}
+
+.ContainIcons {
+    display: inline-block;
+    float: right;
+    line-height: 20px;
+    margin-top: -40px;
+    margin-right: 40px;
+}
+
+.ContainIcons img {
+    width: 17px;
+    height: 17px;
+    padding-top: 5px;
+}
+
+.topnav {
+    background-color: #222;
+    overflow: hidden;
+    padding-left: 40px;
+    height: 45px;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    display: block;
+    height: 45px;
+    color: #f2f2f2;
+    text-align: center;
+    padding-bottom: 12.5px;
+    padding-left: 17px;
+    padding-right: 17px;
+    padding-top: 12.5px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: Ubuntu, sans-serif;
+}
+
+/* Add an active class to highlight the current page */
+.active {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* Hide the link that should open and close the topnav on small screens */
+.topnav .icon {
+    display: none;
+}
+.navbar {
+}
+
+.facebook-color {
+    color: #3b5998;
+}
+.twitter-color {
+    color: #3cf;
+}
+.anto-online-color {
+    color: #e74c3c;
+}
+.github-color {
+    color: #171515;
+}
+.social-menu-item-icon {
+    -webkit-font-smoothing: antialiased;
+    font-size: 0.9em;
+    padding-top: 12px;
+    padding-right: 5px;
+}
+
+/* Style the dropdown button to fit inside the topnav */
+.dropdown .dropbtn {
+    border: none;
+    outline: none;
+    color: white;
+
+    background-color: inherit;
+    padding-bottom: 15px;
+    padding-left: 17px;
+    padding-right: 17px;
+    padding-top: 12.5px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: Ubuntu, sans-serif;
+}
+
+/* Style the dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #222;
+    min-width: 160px;
+    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+.dropdown-content-item {
+}
+
+/* Style the links inside the dropdown */
+.dropdown-content a {
+    float: none;
+    color: white;
+    height: 18px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    background-color: #333;
+}
+
+/* Add a dark background on topnav links and the dropdown button on hover */
+.navbar a:hover,
+.dropdown:hover .dropbtn {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* Add a grey background to dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* Show the dropdown menu when the user moves the mouse over the dropdown button */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 800px) {
+    .icon {
+        display: inline-block !important;
+    }
+
+    .TopBar {
+        display: none;
+    }
+
+    .ContainSocialIcons {
+        display: none;
+    }
+
+    .topnav a,
+    .dropdown .dropbtn {
+        display: none;
+    }
+
+    .topnav a.icon {
+        float: left;
+        display: block;
+    }
+
+    .Container {
+        padding: 0px 20px !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .Container {
+        padding: 0px !important;
+    }
+}
+
+/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+@media screen and (max-width: 800px) {
+    .topnav.responsive {
+        position: relative;
+    }
+
+    .TopBar ContainSocialIcons {
+        display: inline-block !important;
+    }
+
+    .topnav.responsive a.icon {
+        position: relative;
+        top: 0;
+        left: 0 !important;
+    }
+
+    .ContainButtonMainMenu {
+        display: inline-block !important;
+    }
+
+    .topnav.responsive a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+
+    .topnav.responsive .dropdown {
+        float: none;
+    }
+
+    .topnav.responsive .dropdown-content {
+        position: relative;
+    }
+
+    .dropdown-content {
+        display: block !important;
+        margin-left: 20px;
+        box-shadow: none;
+    }
+
+    .topnav.responsive .dropdown .dropbtn {
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+}
+
+#hm-menu-social ul {
+    list-style: none;
+    margin: 0;
+    text-align: center;
+    padding: 0;
+}
+
+#hm-menu-social ul li {
+    display: inline-block;
+    position: relative;
+}
+
+li {
+    display: inline;
+}
+
+.ContainSearch {
+    float: right;
+    margin-right: 30px;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.containTitle {
+    color: white;
+    width: 300px;
+    font-size: 50px;
+    padding: 15px;
+}
+
+.ContainAllNavBar {
+    width: 90%;
+    text-align: center;
+}
+
+.Container-Content .box {
+    width: 50%;
+    background-color: white;
+    margin: 0 20px;
+    height: 200px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.Container-Content .row {
+    width: 100%;
+    display: flex;
+    margin-bottom: 70px;
+    /* background-color: lightgray; */
+}
+
+input[type="button"] {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px 30px;
+    font-size: 16px;
+    right: 0;
+
+    margin-right: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.ContainSocialIcons {
+    background-color: #ecf0f1;
+    display: flex;
+    margin: 0 auto !important;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ContainIcons {
+    margin-right: 30px;
+}
+
+.Container-Content {
+    padding: 20px 70px;
+}
+
+.divFooter {
+    display: flex;
+    width: 115% !important;
+    margin: 0 auto !important;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid gray;
+    height: 50px;
+    background-color: lightseagreen;
+    /* border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px; */
+    position: relative;
+    bottom: 0;
+    top: 102%;
+    margin-left: -26px !important;
+}
+
+.Container-Content .box {
+    width: 45%;
+    background-color: white;
+    margin: 0 20px;
+    height: 200px;
+    border-radius: 1px;
+    position: relative;
+    border: 1px solid lightgray;
+    padding: 25px;
+}
+
+.myContainer {
+    background-color: rgb(97, 97, 97);
+}
+
+.mySection {
+    background-color: white !important;
+    width: 100%;
+    margin: 0 auto !important;
+}
+
+.content-container {
+    background-color: white;
+}
+h4.text-black {
+    float: left;
+    margin-top: 18px;
+    font-size: 20px;
+    font-family: "Circular-Loom";
+}
+.d-flex.justify-content-between {
+    background-color: #ecf0f1;
+}
+.d-flex.justify-content-between .top {
+    background-color: #ecf0f1;
+}
+.content {
+    margin-top: 14px;
+    margin-left: 15px;
+}
+ul#menu-social-items {
+    margin-top: 12px;
+    margin-right: 15px;
+}
+.btn {
+    border-radius: 0% !important;
+}
+.dropdown,
+.dropup {
+    position: initial;
+}
+

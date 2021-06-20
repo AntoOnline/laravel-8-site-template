@@ -1,0 +1,1 @@
+Your account with {{$siteName}} has been deleted as requested.

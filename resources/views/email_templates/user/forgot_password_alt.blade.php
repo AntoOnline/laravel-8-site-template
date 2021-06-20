@@ -1,0 +1,1 @@
+Someone requested your password to be reset with {{$siteName}}. Click on the link below to reset your password.
