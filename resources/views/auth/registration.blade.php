@@ -29,6 +29,9 @@
 
                             <div class="d-grid mx-auto">
                                 <button type="submit" class="btn btn-dark btn-block">Sign up</button>
+                                @if ($errors->has('recaptcha'))
+                                <span class="text-danger">{{ $errors->first('recaptcha') }}</span>
+                                @endif
                             </div>
                         </form>
 

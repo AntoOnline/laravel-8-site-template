@@ -94,6 +94,7 @@ class CustomAuthController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
+            'recaptcha' => ['required', new captchaValid]
         ]);
 
         $data = $request->all();
