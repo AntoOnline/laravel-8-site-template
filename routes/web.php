@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\CustomAuthController;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
   |--------------------------------------------------------------------------
@@ -17,8 +18,9 @@ use Illuminate\Support\Facades\DB;
  */
 
 /*
- * General 
+ * General
  */
+
 Route::get('/', [WebsiteController::class, 'index'])->name('home');
 
 Route::get('/abous-us', [WebsiteController::class, 'aboutus'])->name('aboutus');
@@ -46,39 +48,51 @@ Route::get('/url-encode-decode', [\App\Http\Controllers\UrlEncodeDecode::class, 
 
 Route::get('/what-is-my-ip-address', [\App\Http\Controllers\WhatIsMyIPAddress::class, 'index'])->name('what-is-my-ip-address.index');
 
-/*
- * Auth
+/**
+ * Only for logged out users/guests
  */
-// Route::get('user-info', [CustomAuthController::class, 'userInfo'])->middleware('auth')->name("user-info");
-Route::get('login-welcome', [CustomAuthController::class, 'loginWelcome'])->name('loginWelcome')->middleware('auth');;
-Route::get('login', [CustomAuthController::class, 'index'])->name('login')->middleware('guest');
-Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom')->middleware('guest');
+Route::middleware('guest')->group(function () {
+    Route::name('login')->get('login', [CustomAuthController::class, 'index']);
+    Route::name('login')->post('login', [CustomAuthController::class, 'customLogin']);
 
-Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout')->middleware('auth');
+    Route::name('register.')->group(function () {
+        Route::name('user')->get('registration', [CustomAuthController::class, 'registration']);
+        Route::name('user')->post('registration', [CustomAuthController::class, 'customRegistration']);
+    });
 
-Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user')->middleware('guest');
-Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom')->middleware('guest');
+    Route::name('forgot.')->group(function () {
+        Route::name('password')->get('forgot-password', [CustomAuthController::class, 'forgotPasswordView']);
+        Route::name('password')->post('forgot-password', [CustomAuthController::class, 'forgotPasswordPost']);
+    });
 
-Route::get('forgot-password', [CustomAuthController::class, 'forgotPasswordView'])->name('forgot.password')->middleware('guest');
-Route::post('forgot-password', [CustomAuthController::class, 'forgotPasswordPost']);
+    Route::name('registration.')->group(function () {
+        Route::name('confirmation')->get('password-change/{apitoken}/', [CustomAuthController::class, 'customRegistrationConfirmation']);
+        Route::name("confirmation")->post('password-change/', [CustomAuthController::class, 'customRegistrationConfirmed']);
+    });
+});
 
-Route::get('password-change/{apitoken}/', [CustomAuthController::class, 'customRegistrationConfirmation'])->name('registration.confirmation');
-
-Route::post('change-password', [CustomAuthController::class, 'passwordChangePost'])->name("change.password")->middleware('guest');
-
-Route::get('settings', [CustomAuthController::class, 'settings'])->name('settings')->middleware('auth');
-Route::post('save-settings', [CustomAuthController::class, 'saveSettings'])->name('save.settings')->middleware('auth');
-
-Route::post('delete-account', [CustomAuthController::class, 'deleteAccount'])->name('delete-account')->middleware('auth');
-Route::post('delete-account-confirmed', [CustomAuthController::class, 'deleteAccountConfirmed'])->name('delete-account-confirmed')->middleware('auth');
-
-Route::get('change-user-password', [CustomAuthController::class, 'changeUserPassword'])->name('change-user-password')->middleware('auth');
-Route::post('change-user-password-confirmed', [CustomAuthController::class, 'changeUserPasswordConfirmed'])->name('change-user-password-confirmed')->middleware('auth');
-
-
-Route::post('event-log', [CustomAuthController::class, 'eventLogView'])->name('event-log')->middleware('auth');
-
-/*
- * Cron
+/**
+ * Only or logged in users
  */
-Route::get("sendEmailNotifications", [CustomAuthController::class, 'sendEmailNotifications']);
+Route::middleware(['auth'])->group(function () {
+    // Route::get('user-info', [CustomAuthController::class, 'userInfo'])->name("user-info");
+    Route::name('welcome')->get('welcome', [CustomAuthController::class, 'welcome']);
+
+    Route::name('logout')->get('logout', [CustomAuthController::class, 'logout']);
+
+    Route::name('settings')->get('settings', [CustomAuthController::class, 'settings']);
+    Route::name('save_settings')->post('save-settings', [CustomAuthController::class, 'saveSettings']);
+
+    Route::name('account.')->group(function () {
+        Route::name('delete')->post('delete-account', [CustomAuthController::class, 'deleteAccount']);
+        Route::name('delete_confirmed')->post('delete-account-confirmed', [CustomAuthController::class, 'deleteAccountConfirmed']);
+    });
+
+    Route::name('password.')->group(function () {
+        Route::name('change')->get('change-user-password', [CustomAuthController::class, 'changeUserPassword']);
+        Route::name('change')->post('change-user-password', [CustomAuthController::class, 'changeUserPasswordConfirmed']);
+    });
+
+    Route::name('event_log')->get('event-log', [CustomAuthController::class, 'eventLogView']);
+});
+

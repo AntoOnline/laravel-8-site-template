@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Event;
 use GuzzleHttp\Client;
+use App\Models\EventType;
 use App\Rules\captchaValid;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -12,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Rules\passwordReEnteredCorrectly;
 
@@ -20,6 +23,10 @@ class CustomAuthController extends Controller
 
     public function index()
     {
+        // $mail = new Mail;
+        // $mail->to('m.saqib.hassan96@gmail.com');
+        // $mail->subject('foobar');
+
         return view('auth.login');
     }
 
@@ -34,16 +41,19 @@ class CustomAuthController extends Controller
         $credentials = $request->only('email', 'password');
         $remember = $request->has('remember_me');
         if (Auth::attempt($credentials, $remember)) {
+
             $request->session()->regenerate();
 
-            return redirect()->intended('login-welcome');
+            $this->event(EventType::LOG_IN);
+
+            return redirect()->route('welcome');
         }
         return back()->withErrors([
             'error' => 'Login failed! Please recheck your credentials.'
         ]);
     }
 
-    public function loginWelcome()
+    public function welcome()
     {
         return view('adminDashboard');
     }
@@ -68,9 +78,13 @@ class CustomAuthController extends Controller
         $password = $request->password;
         $user = Auth::user();
         $user->password = Hash::make($password);
-        $user->save();
+        if($user->save()){
+            $this->event(EventType::PASSWORD_RESET);
+        };
 
-        session()->flush();
+        $this->event(EventType::LOG_OUT);
+        $request->session()->flush();
+        Auth::logout();
 
         $view_data = view("email_templates.user.password_changed", [
             'name' => ucfirst($user->name),
@@ -101,6 +115,7 @@ class CustomAuthController extends Controller
         $check = $this->createUser($data);
 
         if ($check) {
+            $this->event(EventType::REGISTRATION);
             $token = $this->make_token($request->email);
 
             $view_data = view('email_templates.registration.first', [
@@ -154,6 +169,8 @@ class CustomAuthController extends Controller
         $jsonStr = $result->getBody()->getContents();
         $jsonArr = json_decode($jsonStr, true);
 
+
+
         return $jsonArr;
     }
 
@@ -166,18 +183,20 @@ class CustomAuthController extends Controller
             'token' => $token
         ])->count() != 0);
 
+
         DB::table('password_resets')->insert([
             'email' => $email,
             'token' => $token,
             'created_at' => Carbon::now()
         ]);
+        $this->event(EventType::PASSWORD_RESET_REQUESTED);
         return $token;
     }
 
     private function createUser(array $data)
     {
         $pass = rand(); // generate a random number as password
-        return User::create([
+        $user = User::create([
             'name' => ucfirst($data['name']),
             'email' => $data['email'],
             'password' => Hash::make($pass)
@@ -193,11 +212,12 @@ class CustomAuthController extends Controller
 
 
 
-    public function signOut(Request $request)
+    public function logout(Request $request)
     {
+
+        $this->event(EventType::LOG_OUT);
         $request->session()->flush();
         Auth::logout();
-
         return Redirect('login');
     }
 
@@ -225,7 +245,7 @@ class CustomAuthController extends Controller
         return view('auth.new_password', ['password_token' => $token]);
     }
 
-    public function passwordChangePost(Request $req)
+    public function customRegistrationConfirmed(Request $req)
     {
         $req->validate([
             'password' => 'required|min:6|max:32|confirmed',
@@ -240,7 +260,9 @@ class CustomAuthController extends Controller
         $user = User::where('email', $res->first()->email)->first();
         $user->password = Hash::make($password);
         $user->email_verified_at = Carbon::now();
-        $user->save();
+        if($user->save()){
+            $this->event(EventType::REGISTRATION_CONFIRMED, $user->id);
+        };
 
         DB::delete('delete from password_resets where token = ?', [$token]);
 
@@ -276,11 +298,15 @@ class CustomAuthController extends Controller
 
         if ($user === null) {
             return back()->withErrors([
-                'error' => 'You will receive an email to reset your password, if the account.'
+                'error' => 'User not found!'
             ]);
         }
 
         $token = $this->make_token($user->email);
+
+        if($token){
+            $this->event(EventType::PASSWORD_RESET_REQUESTED);
+        }
 
         $view_data = view('email_templates.user.forgot_password', [
             'name' => ucfirst($user->name),
@@ -415,7 +441,9 @@ class CustomAuthController extends Controller
 
         $user = Auth::user();
         $user->preferences = $prefs;
-        $user->save();
+        if($user->save()){
+            $this->event(EventType::SETTINGS_SAVED);
+        }
         return redirect()->action([CustomAuthController::class, 'settings']);
     }
 
@@ -470,6 +498,7 @@ class CustomAuthController extends Controller
 
     public function eventLogView(Request $req)
     {
-        return view('user.event_log');
+        $events = Event::where(['user_id'=>Auth::id()])->simplePaginate(25);;
+        return view('user.event_log')->with('events', $events);
     }
 }

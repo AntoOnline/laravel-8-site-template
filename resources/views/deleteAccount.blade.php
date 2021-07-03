@@ -8,7 +8,7 @@
                     <div class="card">
                         <h3 class="card-header text-center">Delete Account</h3>
                         <div class="card-body">
-                            <form action="{{ route('delete-account-confirmed') }}" method="post">
+                            <form action="{{ route('account.delete_confirmed') }}" method="post">
                                 @csrf
                                 <p>To delete your account, please enter your password:</p>
                                 <div class="form-group mb-3">

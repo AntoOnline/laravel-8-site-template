@@ -21,6 +21,7 @@
                             </div>
 
                             <div class="d-grid mx-auto">
+                                @include('shared.captcha')
                                 <button type="submit" class="btn btn-dark btn-block">Send Reset Link</button>
                             </div>
                         </form>

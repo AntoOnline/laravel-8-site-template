@@ -8,7 +8,7 @@
                 <div class="card">
                     <h3 class="card-header text-center">Update Password</h3>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('change.password') }}">
+                        <form method="POST" action="{{ route('registration.confirmation') }}">
                             @csrf
                             <input type="hidden" value="{{old("password_token", $password_token)}}" name="password_token" id="password_token" >
 
@@ -32,6 +32,7 @@
                             </div>
 
                             <div class="d-grid mx-auto">
+                                @include('shared.captcha')
                                 <button type="submit" class="btn btn-dark btn-block">Change Password</button>
                             </div>
                         </form>

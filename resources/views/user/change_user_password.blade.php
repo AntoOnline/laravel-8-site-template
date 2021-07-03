@@ -8,7 +8,7 @@
                     <div class="card">
                         <h3 class="card-header text-center">Change Password</h3>
                         <div class="card-body">
-                            <form action="{{ route('change-user-password-confirmed') }}" method="post">
+                            <form action="{{ route('password.change') }}" method="post">
                                 @csrf
                                 <p>Please enter your current password:</p>
                                 <div class="form-group mb-3">

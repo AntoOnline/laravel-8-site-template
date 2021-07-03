@@ -30,12 +30,9 @@
                                         <p>Event log:</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <form action="{{ route('event-log') }}" method="POST">
-                                            @csrf
-                                            <button type="submit" name="submit" class="btn btn-primary form-control">
-                                                View Event Log
-                                            </button>
-                                        </form>
+                                        <a class="btn btn-primary form-control" href="{{ route('event_log') }}">
+                                            View Event Log
+                                        </a>
                                     </div>
                                 </div>
                             </div>

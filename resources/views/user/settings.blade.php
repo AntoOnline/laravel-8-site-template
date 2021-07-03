@@ -6,7 +6,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card mb-3">
-                        <form action="{{ route('save.settings') }}" method="post">
+                        <form action="{{ route('save_settings') }}" method="post">
                             @csrf
                             <h3 class="card-header text-center">Welcome!</h3>
                             <div class="card-body">
@@ -23,7 +23,7 @@
                                                 <label class="form-check-label" for="flexSwitchCheckDefault">Dark
                                                     mode</label>
                                             </div>
-                                            
+
 
                                         </div>
                                     </div>
@@ -57,7 +57,7 @@
                             <div class="container text-center">
                                 <p class="d-flex align-items-center justify-content-around mb-0">
                                     Change Password:
-                                    <a href="{{ route('change-user-password') }}">
+                                    <a href="{{ route('password.change') }}">
                                         <button class="btn btn-outline-info">
                                             Click here to change password
                                         </button>
@@ -77,7 +77,7 @@
                             <div class="container text-center">
                                 <p>Click the button below to remove your account. </p>
                                 <p>This action cannot be undone.</p>
-                                <form action="{{ route('delete-account') }}" method="POST">
+                                <form action="{{ route('account.delete') }}" method="POST">
                                     @csrf
                                     <input class="btn btn-outline-danger" type="submit" name="delete_account"
                                         value="Click here to delete account">

@@ -9,7 +9,7 @@
                     <h3 class="card-header text-center">Register User</h3>
                     <div class="card-body">
 
-                        <form action="{{ route('register.custom') }}" method="POST">
+                        <form action="{{ route('register.user') }}" method="POST">
                             @csrf
                             <div class="form-group mb-3">
                                 <input type="text" placeholder="Name" id="name" class="form-control" name="name"
@@ -28,6 +28,7 @@
                             </div>
 
                             <div class="d-grid mx-auto">
+                                @include('shared.captcha')
                                 <button type="submit" class="btn btn-dark btn-block">Sign up</button>
                                 @if ($errors->has('recaptcha'))
                                 <span class="text-danger">{{ $errors->first('recaptcha') }}</span>

@@ -6,7 +6,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card mb-5">
-                        <form action="{{ route('save.settings') }}" method="post">
+                        <form action="{{ route('save_settings') }}" method="post">
                             @csrf
                             <h3 class="card-header text-center">Welcome!</h3>
                             <div class="card-body">
@@ -71,7 +71,7 @@
                                             <p>Delete account:</p>
                                         </div>
                                         <div class="col-md-6">
-                                            <form action="{{ route('delete-account') }}" method="POST">
+                                            <form action="{{ route('account.delete') }}" method="POST">
                                                 @csrf
                                                 <input class="btn btn-outline-warning" type="submit" name="delete_account"
                                                     value="Click here to delete account...">

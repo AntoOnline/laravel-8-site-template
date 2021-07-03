@@ -13,12 +13,12 @@
         nav.navbar.mainNavBar .nav-link,
         nav.navbar.mainNavBar .navbar-brand {
             background-color: #e3f2fd;
-            /* transition: background 500ms */
+            transition: background 500ms
         }
 
         body {
             background: white;
-            /* transition: background 500ms */
+            transition: background 500ms
         }
 
         body.darkmode-on {
@@ -85,11 +85,11 @@
                             <a class="nav-link" href="{{ route('login') }}">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register-user') }}">Register</a>
+                            <a class="nav-link" href="{{ route('register.user') }}">Register</a>
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('signout') }}">Logout</a>
+                            <a class="nav-link" href="{{ route('logout') }}">Logout</a>
                         </li>
                     @endguest
                 </ul>
@@ -103,12 +103,13 @@
                 </ul>
             </div>
 
-            <div class="dark-mode-container form-check form-switch">
+
+            {{-- <div class="dark-mode-container form-check form-switch">
                 <input class="form-check-input" type="checkbox" onclick="changeTheme(this)" id="flexSwitchCheckDefault"
                     name="settings[darkmode]" checked="">
                 <label class="form-check-label dark-mode-label" for="flexSwitchCheckDefault">Dark
                     mode</label>
-            </div>
+            </div> --}}
 
         </div>
     </nav>
