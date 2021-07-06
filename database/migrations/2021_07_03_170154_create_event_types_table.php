@@ -17,7 +17,6 @@ class CreateEventTypesTable extends Migration
         Schema::create('event_types', function (Blueprint $table) {
             $table->id()->startingValue(1);
             $table->text("name");
-            $table->timestamps();
         });
 
         DB::table('event_types')->insert(['name' => 'logged in', 'id' => 1]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\testMail;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Event;
@@ -23,10 +24,6 @@ class CustomAuthController extends Controller
 
     public function index()
     {
-        // $mail = new Mail;
-        // $mail->to('m.saqib.hassan96@gmail.com');
-        // $mail->subject('foobar');
-
         return view('auth.login');
     }
 
@@ -72,7 +69,7 @@ class CustomAuthController extends Controller
     {
         $request->validate([
             'old_password' => "required|password",
-            'password' => 'required|confirmed|min:6|max:32'
+            'password' => 'required|confirmed|min:6|max:32',
         ]);
 
         $password = $request->password;
@@ -115,7 +112,7 @@ class CustomAuthController extends Controller
         $check = $this->createUser($data);
 
         if ($check) {
-            $this->event(EventType::REGISTRATION);
+            $this->event(EventType::REGISTRATION, "", $check->id);
             $token = $this->make_token($request->email);
 
             $view_data = view('email_templates.registration.first', [
@@ -129,7 +126,7 @@ class CustomAuthController extends Controller
                 'emailConfirmationLink' => URL::to("/password-change/$token/")
             ])->render();
 
-            $guzzleRes = $this->fireGuzzle($request->email, "Registration email", $view_data, $alt);
+            $this->fireGuzzle($request->email, "Registration email", $view_data, $alt);
 
             return view('auth.reg_results', [
                 'message' => 'You will receive a registration link in your provided email address.'
@@ -143,35 +140,12 @@ class CustomAuthController extends Controller
 
     private function fireGuzzle($email, $subject, $view_data, $alt_data)
     {
-        $alt_data = base64_encode($alt_data);
-        $view_data = base64_encode($view_data);
-
-        $data = [
-            "secret-name" => "shared-test-at-thehost-guru",
-            "to-address" => $email,
-            "base64-body" => $view_data,
-            "base64-alt-body" => $alt_data,
-            "subject" => $subject
-        ];
-
-        $apiUrl = env("SBUS_API_URL") . "message-services/mail-send";
-        $apiToken = env("SBUS_API_TOKEN");
-
-        $client = new Client();
-
-        $result = $client->post($apiUrl, [
-            'headers' => ['x-auth-token' => $apiToken],
-            'http_errors' => false,
-            'verify' => false,
-            'json' => $data,
-        ]);
-
-        $jsonStr = $result->getBody()->getContents();
-        $jsonArr = json_decode($jsonStr, true);
-
-
-
-        return $jsonArr;
+        Mail::send([],[], function ($message) use($email, $subject, $view_data, $alt_data) {
+            $message->to($email)
+            ->subject($subject)
+            ->setBody($view_data, 'text/html')
+            ->addPart($alt_data, 'text/plain');
+        });
     }
 
     private function make_token($email)
@@ -201,6 +175,7 @@ class CustomAuthController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($pass)
         ]);
+        return $user;
     }
 
     public function dashboard()
@@ -229,8 +204,6 @@ class CustomAuthController extends Controller
             ]);
         }
         $token = $req->apitoken;
-
-        // dd(DB::table('password_resets')->get()->first());
 
         // Verifying Token
         $res = DB::table('password_resets')->where([
@@ -261,7 +234,7 @@ class CustomAuthController extends Controller
         $user->password = Hash::make($password);
         $user->email_verified_at = Carbon::now();
         if($user->save()){
-            $this->event(EventType::REGISTRATION_CONFIRMED, $user->id);
+            $this->event(EventType::REGISTRATION_CONFIRMED, "", $user->id);
         };
 
         DB::delete('delete from password_resets where token = ?', [$token]);
@@ -367,10 +340,10 @@ class CustomAuthController extends Controller
                     'emailConfirmationLink' => URL::to("/password-change/{$rec->token}/")
                 ])->render();
 
-                $res = $this->fireGuzzle($rec->email, "Confirm your email address", $view_data, $alt);
-                if (!isset($res['errors'])) {
-                    DB::update('update password_resets set last_reminder = "15_mins" where token = ? and email = ?', [$rec->token, $rec->email]);
-                }
+                $this->fireGuzzle($rec->email, "Confirm your email address", $view_data, $alt);
+
+                DB::update('update password_resets set last_reminder = "15_mins" where token = ? and email = ?', [$rec->token, $rec->email]);
+
             } elseif ($rec->last_reminder === '15_mins' && $time->addHours(12) < $now) {
                 // 12 hourse have passed and the person has not yet met reminded again.
                 // send a reminder email
@@ -385,10 +358,9 @@ class CustomAuthController extends Controller
                     'emailConfirmationLink' => URL::to("/password-change/{$rec->token}/")
                 ])->render();
 
-                $res = $this->fireGuzzle($rec->email, "Confirm your email address", $view_data, $alt);
-                if (!isset($res['errors'])) {
-                    DB::update('update password_resets set last_reminder = "12_hours" where token = ? and email = ?', [$rec->token, $rec->email]);
-                }
+                $this->fireGuzzle($rec->email, "Confirm your email address", $view_data, $alt);
+                DB::update('update password_resets set last_reminder = "12_hours" where token = ? and email = ?', [$rec->token, $rec->email]);
+
             } elseif ($rec->last_reminder === '12_hours' && $time->addHours(24) < $now) {
 
                 //User has not verified the account and 24 hours have passed. Deleting account now.
@@ -442,7 +414,7 @@ class CustomAuthController extends Controller
         $user = Auth::user();
         $user->preferences = $prefs;
         if($user->save()){
-            $this->event(EventType::SETTINGS_SAVED);
+            $this->event(EventType::SETTINGS_SAVED, $prefs);
         }
         return redirect()->action([CustomAuthController::class, 'settings']);
     }
@@ -498,7 +470,7 @@ class CustomAuthController extends Controller
 
     public function eventLogView(Request $req)
     {
-        $events = Event::where(['user_id'=>Auth::id()])->simplePaginate(25);;
+        $events = Event::where(['user_id'=>Auth::id()])->orderBy('created_at', 'desc')->simplePaginate(25);;
         return view('user.event_log')->with('events', $events);
     }
 }
