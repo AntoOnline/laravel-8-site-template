@@ -29,9 +29,13 @@
                                     @endif
                                 </div>
                                 <div class="form-group">
+                                    @include('shared.captcha')
                                     <button type="submit" class="btn btn-outline-info" name="submit">
                                         Change Password
                                     </button>
+                                    @if ($errors->has('recaptcha'))
+                                        <span class="text-danger">{{ $errors->first('recaptcha') }}</span>
+                                    @endif
                                 </div>
                             </form>
                         </div>

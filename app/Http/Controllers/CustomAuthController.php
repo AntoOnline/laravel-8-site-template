@@ -70,6 +70,7 @@ class CustomAuthController extends Controller
         $request->validate([
             'old_password' => "required|password",
             'password' => 'required|confirmed|min:6|max:32',
+            'recaptcha' => ['required', new captchaValid]
         ]);
 
         $password = $request->password;
@@ -222,7 +223,8 @@ class CustomAuthController extends Controller
     {
         $req->validate([
             'password' => 'required|min:6|max:32|confirmed',
-            'password_token' => 'required'
+            'password_token' => 'required',
+            'recaptcha' => ['required', new captchaValid]
         ]);
         $password = $req->password;
         $token = $req->password_token;
