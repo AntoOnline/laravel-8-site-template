@@ -25,29 +25,6 @@ Route::get('/', [WebsiteController::class, 'index'])->name('home');
 
 Route::get('/abous-us', [WebsiteController::class, 'aboutus'])->name('aboutus');
 
-Route::get('/aws-ip-address-ranges', [\App\Http\Controllers\AwsIpAddressRanges::class, 'index'])->name('aws-ip-address-ranges.index');
-
-Route::get('/base-64-encode-decode', [App\Http\Controllers\Base64EncodeDecode::class, 'index'])->name('base-64-encode-decode.index');
-
-Route::get('/chmod-calculator', [\App\Http\Controllers\ChmodCalculator::class, 'index'])->name('chmod-calculator.index');
-
-Route::get('/data-multiplier', [App\Http\Controllers\DataMultiplier::class, 'index'])->name('data-multiplier.index');
-Route::post('/data-multiplier', [App\Http\Controllers\DataMultiplier::class, 'index'])->name('data-multiplier.index');
-
-Route::get('/http-status-checker', [\App\Http\Controllers\HttpStatusChecker::class, 'index'])->name('http-status-checker.index');
-
-Route::get('/ntp-tester', [\App\Http\Controllers\NtpTester::class, 'index'])->name('ntp-tester.index');
-Route::post('/ntp-tester', [\App\Http\Controllers\NtpTester::class, 'index'])->name('ntp-tester.index');
-
-Route::get('/string-tools', [App\Http\Controllers\StringTools::class, 'index'])->name('string-tools.index');
-Route::post('/string-tools', [App\Http\Controllers\StringTools::class, 'index'])->name('string-tools.index');
-
-Route::get('/site-file-checker', [App\Http\Controllers\SiteFileChecker::class, 'index'])->name('site-file-checker.index');
-
-Route::get('/url-encode-decode', [\App\Http\Controllers\UrlEncodeDecode::class, 'index'])->name('url-encode-decode.index');
-
-Route::get('/what-is-my-ip-address', [\App\Http\Controllers\WhatIsMyIPAddress::class, 'index'])->name('what-is-my-ip-address.index');
-
 /**
  * Only for logged out users/guests
  */
