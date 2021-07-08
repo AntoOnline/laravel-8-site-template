@@ -437,7 +437,6 @@ class CustomAuthController extends Controller
 
     public function deleteAccountConfirmed(Request $request)
     {
-
         $request->validate([
             'password' => ['required', new passwordReEnteredCorrectly()]
         ]);
@@ -452,6 +451,7 @@ class CustomAuthController extends Controller
         $name = $user->name;
 
         if ($user->delete()) {
+            $this->event(EventType::ACCOUNT_DELETED, "", $id);
             DB::delete('delete from password_resets where email = ?', [$email]);
             $view_data = view("email_templates.user.account_deleted", [
                 'name' => ucfirst($name),

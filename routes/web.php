@@ -84,7 +84,7 @@ Route::middleware(['auth'])->group(function () {
     Route::name('save_settings')->post('save-settings', [CustomAuthController::class, 'saveSettings']);
 
     Route::name('account.')->group(function () {
-        Route::name('delete')->post('delete-account', [CustomAuthController::class, 'deleteAccount']);
+        Route::name('delete')->get('delete-account', [CustomAuthController::class, 'deleteAccount']);
         Route::name('delete_confirmed')->post('delete-account-confirmed', [CustomAuthController::class, 'deleteAccountConfirmed']);
     });
 

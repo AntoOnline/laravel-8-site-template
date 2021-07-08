@@ -77,11 +77,11 @@
                             <div class="container text-center">
                                 <p>Click the button below to remove your account. </p>
                                 <p>This action cannot be undone.</p>
-                                <form action="{{ route('account.delete') }}" method="POST">
-                                    @csrf
-                                    <input class="btn btn-outline-danger" type="submit" name="delete_account"
-                                        value="Click here to delete account">
-                                </form>
+                                <a href="{{ route('account.delete') }}">
+                                    <button class="btn btn-outline-warning">
+                                        Click here to delete account...
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
