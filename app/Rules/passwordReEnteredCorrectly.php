@@ -11,7 +11,7 @@ use Illuminate\Contracts\Validation\Rule;
 class passwordReEnteredCorrectly implements Rule
 {
     /**
-     * Create a new rule instance.
+     * Rule; Checks if the password entered matches the password of the logged in user.
      *
      * @return void
      */

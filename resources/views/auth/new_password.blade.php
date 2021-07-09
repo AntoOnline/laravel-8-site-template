@@ -8,7 +8,7 @@
                 <div class="card">
                     <h3 class="card-header text-center">Update Password</h3>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('registration.confirmation') }}">
+                        <form method="POST" action="{{ route('register.confirm') }}">
                             @csrf
                             <input type="hidden" value="{{old("password_token", $password_token)}}" name="password_token" id="password_token" >
 

@@ -3,8 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\CustomAuthController;
-use Illuminate\Support\Facades\DB;
-use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
   |--------------------------------------------------------------------------
@@ -21,30 +19,25 @@ use PHPUnit\TextUI\XmlConfiguration\Group;
  * General
  */
 
-Route::get('/', [WebsiteController::class, 'index'])->name('home');
-
-Route::get('/abous-us', [WebsiteController::class, 'aboutus'])->name('aboutus');
-
 /**
- * Only for logged out users/guests
+ * Only for guests/logged out users
  */
 Route::middleware('guest')->group(function () {
+    Route::name('home')->get('/', [CustomAuthController::class, 'index']);
     Route::name('login')->get('login', [CustomAuthController::class, 'index']);
     Route::name('login')->post('login', [CustomAuthController::class, 'customLogin']);
 
     Route::name('register.')->group(function () {
         Route::name('user')->get('registration', [CustomAuthController::class, 'registration']);
         Route::name('user')->post('registration', [CustomAuthController::class, 'customRegistration']);
+
+        Route::name('confirm')->get('password-change/{apitoken}/', [CustomAuthController::class, 'customRegistrationConfirmation']);
+        Route::name("confirm")->post('password-change/', [CustomAuthController::class, 'customRegistrationConfirmed']);
     });
 
     Route::name('forgot.')->group(function () {
         Route::name('password')->get('forgot-password', [CustomAuthController::class, 'forgotPasswordView']);
         Route::name('password')->post('forgot-password', [CustomAuthController::class, 'forgotPasswordPost']);
-    });
-
-    Route::name('registration.')->group(function () {
-        Route::name('confirmation')->get('password-change/{apitoken}/', [CustomAuthController::class, 'customRegistrationConfirmation']);
-        Route::name("confirmation")->post('password-change/', [CustomAuthController::class, 'customRegistrationConfirmed']);
     });
 });
 
@@ -53,6 +46,8 @@ Route::middleware('guest')->group(function () {
  */
 Route::middleware(['auth'])->group(function () {
     // Route::get('user-info', [CustomAuthController::class, 'userInfo'])->name("user-info");
+
+    Route::name('home')->get('/', [CustomAuthController::class, 'index']);
     Route::name('welcome')->get('welcome', [CustomAuthController::class, 'welcome']);
 
     Route::name('logout')->get('logout', [CustomAuthController::class, 'logout']);
@@ -62,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::name('account.')->group(function () {
         Route::name('delete')->get('delete-account', [CustomAuthController::class, 'deleteAccount']);
-        Route::name('delete_confirmed')->post('delete-account-confirmed', [CustomAuthController::class, 'deleteAccountConfirmed']);
+        Route::name('delete')->post('delete-account', [CustomAuthController::class, 'deleteAccountConfirmed']);
     });
 
     Route::name('password.')->group(function () {

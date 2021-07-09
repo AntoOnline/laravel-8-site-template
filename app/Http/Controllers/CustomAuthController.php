@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\testMail;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Event;
-use GuzzleHttp\Client;
 use App\Models\EventType;
 use App\Rules\captchaValid;
 use Illuminate\Support\Str;
@@ -19,14 +17,28 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Rules\passwordReEnteredCorrectly;
 
+
 class CustomAuthController extends Controller
 {
-
+    /**
+     * Guest login screen
+     *
+     * @return void
+     */
     public function index()
     {
-        return view('auth.login');
+        if(!Auth::check()) // User not logged in, show login form
+            return view('auth.login');
+
+        // No else because loggin in user should not have access to this route
     }
 
+    /**
+     * Post method for login. Checks if the credentials are valid.
+     *
+     * @param Request $request
+     * @return void
+     */
     public function customLogin(Request $request)
     {
         $request->validate([
@@ -41,6 +53,7 @@ class CustomAuthController extends Controller
 
             $request->session()->regenerate();
 
+            // Login successful, log event
             $this->event(EventType::LOG_IN);
 
             return redirect()->route('welcome');
@@ -50,21 +63,42 @@ class CustomAuthController extends Controller
         ]);
     }
 
+    /**
+     * Welcome screen for logged in user
+     *
+     * @return void
+     */
     public function welcome()
     {
         return view('adminDashboard');
     }
 
+    /**
+     * Registration screen for guest users
+     *
+     * @return View
+     */
     public function registration()
     {
         return view('auth.registration');
     }
 
+    /**
+     * Chance password screen for logged in users
+     *
+     * @return View
+     */
     public function changeUserPassword()
     {
         return view('user.change_user_password');
     }
 
+    /**
+     * Confirm change of password. Validates old password and sets new password.
+     *
+     * @param Request $request
+     * @return void
+     */
     public function changeUserPasswordConfirmed(Request $request)
     {
         $request->validate([
@@ -80,6 +114,7 @@ class CustomAuthController extends Controller
             $this->event(EventType::PASSWORD_RESET);
         };
 
+        // After password change, the user must log back in
         $this->event(EventType::LOG_OUT);
         $request->session()->flush();
         Auth::logout();
@@ -139,6 +174,15 @@ class CustomAuthController extends Controller
         }
     }
 
+    /**
+     * Sends an email based on the input
+     *
+     * @param string $email To email
+     * @param string $subject Subject of email
+     * @param string $view_data The html data to show
+     * @param string $alt_data The alternative text to show
+     * @return void
+     */
     private function fireGuzzle($email, $subject, $view_data, $alt_data)
     {
         Mail::send([],[], function ($message) use($email, $subject, $view_data, $alt_data) {
@@ -149,15 +193,23 @@ class CustomAuthController extends Controller
         });
     }
 
+    /**
+     * Makes a unique token from random 32 letter string and base_64 encoding
+     *
+     * @param [type] $email
+     * @return void
+     */
     private function make_token($email)
     {
+        // Deleting old token
         DB::delete('delete from password_resets where email = ?', [$email]);
+
         do {
             $token = base64_encode(Hash::make(Str::random(32)));
         } while (DB::table('password_resets')->where([
+            // Loop to make sure token does not already exist
             'token' => $token
         ])->count() != 0);
-
 
         DB::table('password_resets')->insert([
             'email' => $email,
@@ -179,15 +231,12 @@ class CustomAuthController extends Controller
         return $user;
     }
 
-    public function dashboard()
-    {
-        $data = tools::all();
-
-        return view('home', compact('data'));
-    }
-
-
-
+    /**
+     * User logout function
+     *
+     * @param Request $request
+     * @return void
+     */
     public function logout(Request $request)
     {
 
@@ -197,6 +246,12 @@ class CustomAuthController extends Controller
         return Redirect('login');
     }
 
+    /**
+     * Registration password function, used to authenticate token and shows a new password screen
+     *
+     * @param Request $req
+     * @return void
+     */
     public function customRegistrationConfirmation(Request $req)
     {
         if (!$req->apitoken) {
@@ -219,6 +274,12 @@ class CustomAuthController extends Controller
         return view('auth.new_password', ['password_token' => $token]);
     }
 
+    /**
+     * Registration password change confirmation
+     *
+     * @param Request $req
+     * @return void
+     */
     public function customRegistrationConfirmed(Request $req)
     {
         $req->validate([
@@ -229,10 +290,10 @@ class CustomAuthController extends Controller
         $password = $req->password;
         $token = $req->password_token;
 
-        $res = DB::table('password_resets')->where([
+        $email = DB::table('password_resets')->where([
             'token' => $token
-        ]);
-        $user = User::where('email', $res->first()->email)->first();
+        ])->first()->email;
+        $user = User::where('email', $email)->first();
         $user->password = Hash::make($password);
         $user->email_verified_at = Carbon::now();
         if($user->save()){
@@ -257,14 +318,25 @@ class CustomAuthController extends Controller
         ]);
     }
 
+    /**
+     * Forgot Password Screen Function
+     *
+     * @param Request $request
+     * @return void
+     */
     public function forgotPasswordView(Request $request)
     {
         return view('auth.reset_password');
     }
 
+    /**
+     * Forgot password post function, send a reset password reset token
+     *
+     * @param Request $request
+     * @return void
+     */
     public function forgotPasswordPost(Request $request)
     {
-
         $request->validate([
             'email' => 'required|email'
         ]);
@@ -302,6 +374,12 @@ class CustomAuthController extends Controller
         ]);
     }
 
+    /**
+     * Sends email to all pending registration/password reset requests
+     *
+     * @param Request $request
+     * @return void
+     */
     public function sendEmailNotifications(Request $request)
     {
         // $records = DB::table("password_resets")->get();
@@ -405,6 +483,12 @@ class CustomAuthController extends Controller
         echo "1";
     }
 
+    /**
+     * Saves user settings
+     *
+     * @param Request $r
+     * @return void
+     */
     public function saveSettings(Request $r)
     {
         if ($r->settings && is_array($r->settings)) {
@@ -421,8 +505,15 @@ class CustomAuthController extends Controller
         return redirect()->action([CustomAuthController::class, 'settings']);
     }
 
+    /**
+     * User Settings screen
+     *
+     * @param Request $r
+     * @return void
+     */
     public function settings(Request $r)
     {
+        // Getting settings
         $settings = json_decode(Auth::user()->preferences);
 
         return view('user.settings', [
@@ -430,11 +521,23 @@ class CustomAuthController extends Controller
         ]);
     }
 
+    /**
+     * Delete account screen
+     *
+     * @param Request $request
+     * @return void
+     */
     public function deleteAccount(Request $request)
     {
         return view('user.delete_account');
     }
 
+    /**
+     * Delete account post function. Validates password and confirms account deletion
+     *
+     * @param Request $request
+     * @return void
+     */
     public function deleteAccountConfirmed(Request $request)
     {
         $request->validate([
@@ -470,6 +573,12 @@ class CustomAuthController extends Controller
         }
     }
 
+    /**
+     * Event log screen
+     *
+     * @param Request $req
+     * @return void
+     */
     public function eventLogView(Request $req)
     {
         $events = Event::where(['user_id'=>Auth::id()])->orderBy('created_at', 'desc')->simplePaginate(25);;

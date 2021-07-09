@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Rule;
 class captchaValid implements Rule
 {
     /**
-     * Create a new rule instance.
+     * Create a new Recaptcha validation rule. To be used wither validate() function
      *
      * @return void
      */
@@ -28,6 +28,12 @@ class captchaValid implements Rule
         return $this->captchaValidator($value);
     }
 
+    /**
+     * Validates recaptcha.
+     *
+     * @param [type] $captcha
+     * @return void
+     */
     function captchaValidator($captcha) {
         $url = 'https://www.google.com/recaptcha/api/siteverify';
         $remoteip = $_SERVER['REMOTE_ADDR'];
