@@ -149,7 +149,7 @@ class CustomAuthController extends Controller
 
         if ($check) {
             $this->event(EventType::REGISTRATION, "", $check->id);
-            $token = $this->make_token($request->email);
+            $token = $this->makeToken($request->email);
 
             $view_data = view('email_templates.registration.first', [
                 'name' => ucfirst($request->name),
@@ -193,13 +193,13 @@ class CustomAuthController extends Controller
         });
     }
 
-    /**
+     /**
      * Makes a unique token from random 32 letter string and base_64 encoding
      *
      * @param [type] $email
      * @return void
      */
-    private function make_token($email)
+    private function makeToken($email)
     {
         // Deleting old token
         DB::delete('delete from password_resets where email = ?', [$email]);
@@ -219,7 +219,7 @@ class CustomAuthController extends Controller
         $this->event(EventType::PASSWORD_RESET_REQUESTED);
         return $token;
     }
-
+    
     private function createUser(array $data)
     {
         $pass = rand(); // generate a random number as password
@@ -349,7 +349,7 @@ class CustomAuthController extends Controller
             ]);
         }
 
-        $token = $this->make_token($user->email);
+        $token = $this->makeToken($user->email);
 
         if($token){
             $this->event(EventType::PASSWORD_RESET_REQUESTED);
