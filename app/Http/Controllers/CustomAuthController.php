@@ -267,7 +267,7 @@ class CustomAuthController extends Controller
         ]);
         if ($res->count() != 1) {
             return view('auth.new_password_result', [
-                'message' => 'Invlid token. Please try again.'
+                'message' => 'Invalid token. Please try again.'
             ]);
         }
 
