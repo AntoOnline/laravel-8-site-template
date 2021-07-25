@@ -193,7 +193,7 @@ class CustomAuthController extends Controller
         });
     }
 
-     /**
+    /**
      * Makes a unique token from random 32 letter string and base_64 encoding
      *
      * @param [type] $email
@@ -219,7 +219,7 @@ class CustomAuthController extends Controller
         $this->event(EventType::PASSWORD_RESET_REQUESTED);
         return $token;
     }
-    
+
     private function createUser(array $data)
     {
         $pass = rand(); // generate a random number as password
@@ -239,7 +239,6 @@ class CustomAuthController extends Controller
      */
     public function logout(Request $request)
     {
-
         $this->event(EventType::LOG_OUT);
         $request->session()->flush();
         Auth::logout();
@@ -254,12 +253,12 @@ class CustomAuthController extends Controller
      */
     public function customRegistrationConfirmation(Request $req)
     {
-        if (!$req->apitoken) {
+        if (!$req->token) {
             return view('auth.new_password_result', [
                 'message' => 'Invalid link. Please try again.'
             ]);
         }
-        $token = $req->apitoken;
+        $token = $req->token;
 
         // Verifying Token
         $res = DB::table('password_resets')->where([
