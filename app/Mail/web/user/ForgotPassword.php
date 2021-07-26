@@ -7,19 +7,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class DeleteAccount extends Mailable
+class ForgotPassword extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $name;
+    public $link;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name)
+    public function __construct($name, $link)
     {
         $this->name = $name;
+        $this->link = $link;
     }
 
     /**
@@ -29,11 +32,11 @@ class DeleteAccount extends Mailable
      */
     public function build()
     {
-        $subject = config('app.name') . ": Account Deleted";
+        $subject = config('app.name') . ": Reset Password";
 
         $this->subject($subject)
-            ->view('emails.user.delete_account')
-            ->text('emails.user.delete_account_alt');
+            ->view('emails.web.user.forgot_password')
+            ->text('emails.web.user.forgot_password_alt');
 
         return $this;
     }

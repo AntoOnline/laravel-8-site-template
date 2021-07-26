@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\user\ChangePassword;
-use App\Mail\user\DeleteAccount;
-use App\Mail\user\ForgotPassword;
+use App\Mail\web\user\ChangePassword;
+use App\Mail\web\user\DeleteAccount;
+use App\Mail\web\user\ForgotPassword;
 use App\Models\User;
 use App\Models\EventType;
-use App\Mail\user\Register;
+use App\Mail\web\user\Register;
 use App\Rules\captchaValid;
 use Illuminate\Http\Request;
-use App\Mail\user\SetPassword;
+use App\Mail\web\user\SetPassword;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-use App\Rules\passwordReEnteredCorrectly;
 
 class UserController extends Controller
 {

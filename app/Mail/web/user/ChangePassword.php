@@ -7,21 +7,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Register extends Mailable
+class ChangePassword extends Mailable
 {
     use Queueable, SerializesModels;
     public $name;
-    public $email_confirmation_link;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(string $name, string $email_confirmation_link)
+    public function __construct($name)
     {
         $this->name = $name;
-        $this->email_confirmation_link = $email_confirmation_link;
     }
 
     /**
@@ -31,11 +29,11 @@ class Register extends Mailable
      */
     public function build()
     {
-        $subject = config('app.name') . ": Registration Email";
+        $subject = config('app.name') . ": Password Changed";
 
         $this->subject($subject)
-            ->view('emails.user.register')
-            ->text('emails.user.register_alt');
+            ->view('emails.web.user.change_password')
+            ->text('emails.web.user.change_password');
 
         return $this;
     }

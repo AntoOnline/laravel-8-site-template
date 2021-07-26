@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Mail\user;
+namespace App\Mail\commands\SendPasswordTokenReminders;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SetPassword extends Mailable
+class AccountDeleted extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,12 +30,11 @@ class SetPassword extends Mailable
      */
     public function build()
     {
-        $subject = config('app.name') . ": Password Updated";
+        $subject = config('app.name') . ": Acoount Deleted";
 
-        $this->subject($subject)
-            ->view('emails.user.set_password')
-            ->text('emails.user.set_password_alt');
-
-        return $this;
+        return $this
+            ->view('emails.commands.SendPasswordTokenReminders.account_deleted')
+            ->text('emails.commands.SendPasswordTokenReminders.account_deleted_alt')
+            ->subject($subject);
     }
 }
