@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\web\user\ChangePassword;
-use App\Mail\web\user\DeleteAccount;
-use App\Mail\web\user\ForgotPassword;
 use App\Models\User;
 use App\Models\EventType;
 use App\Mail\web\user\Register;
@@ -12,6 +9,10 @@ use App\Rules\captchaValid;
 use Illuminate\Http\Request;
 use App\Mail\web\user\SetPassword;
 use Illuminate\Support\Carbon;
+use App\Mail\web\user\DeleteAccount;
+use App\Mail\web\user\ChangePassword;
+use App\Mail\web\user\ForgotPassword;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -38,9 +39,8 @@ class UserController extends Controller
 
             $token = $this->makeToken($user->email);
             $url = route('web.set_password', ['token' => $token]);
-            $mail = new Register($user->name, $url);
 
-            Mail::to($user)->send($mail);
+            Mail::to($user)->send(new Register($user->name, $url) );
 
             return view('shared.info', [
                 'head' => 'Email confirmation link sent!',
