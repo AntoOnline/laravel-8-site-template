@@ -1,1 +1,1 @@
-Your account with {{$siteName}} has been deleted, because the email address was not verified.
+Your account with  {{ config('app.name') }} has been deleted, because the email address was not verified.

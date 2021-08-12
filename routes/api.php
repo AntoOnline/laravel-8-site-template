@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
   |
  */
 
- /*
- * API endpoint to trigger email notifications and delete un-activated accounts.
- */
-Route::get("sendEmailNotifications", [CustomAuthController::class, 'sendEmailNotifications']);
+Route::name('api.v1.')->namespace('\App\Http\Controllers\API')->group(function () {
+
+});

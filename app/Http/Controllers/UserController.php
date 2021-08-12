@@ -58,7 +58,7 @@ class UserController extends Controller
         $request->validate([
             'password' => 'required|min:6|max:32|confirmed',
             'password_token' => 'required',
-            'recaptcha' => ['required', new captchaValid]
+            'recaptcha' => [new captchaValid]
         ]);
 
         $password = $request->password;
@@ -76,9 +76,7 @@ class UserController extends Controller
             $this->event(EventType::REGISTRATION_CONFIRMED, "", $user->id);
             $this->deleteToken($token);
 
-            $mail = new SetPassword($user->name);
-
-            Mail::to($user)->send($mail);
+            Mail::to($user)->send(new SetPassword($user->name));
 
             return view('shared.info', [
                 'head' => 'Password Changed!',
@@ -117,7 +115,7 @@ class UserController extends Controller
     public function deleteAccount(Request $request)
     {
         $request->validate([
-            'password' => ['required|password']
+            'password' => "required|password"
         ]);
 
         $id = Auth::user()->id;
@@ -132,8 +130,7 @@ class UserController extends Controller
             Auth::logout();
             Session::flush();
 
-            $mail = new DeleteAccount($name);
-            Mail::to($email)->send($mail);
+            Mail::to($email)->send(new DeleteAccount($name));
 
             return view('shared.info', [
                 'head' => 'Account Deleted',

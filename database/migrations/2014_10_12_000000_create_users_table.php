@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             'email' => 'admin@example.com',
             'email_verified_at' => now(),
             'password' => Hash::make('admin'),
-        ])
+        ]);
     }
 
     /**

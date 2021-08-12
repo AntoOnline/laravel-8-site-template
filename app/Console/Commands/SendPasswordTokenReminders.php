@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Mail\commands\SendPasswordTokenReminders\AccountDeleted;
+use App\Mail\commands\SendPasswordTokenReminders\Reminder12Hours;
 use App\Mail\commands\SendPasswordTokenReminders\Reminder15Mins;
 use App\Models\User;
 use Illuminate\Support\Carbon;
@@ -76,11 +77,11 @@ class SendPasswordTokenReminders extends Command
 
                 DB::update('update password_resets set last_reminder = "15_mins" where token = ? and email = ?', [$token, $email]);
             } elseif ($rec->last_reminder === '15_mins' && $time->addHours(12) < $now) {
-                // 12 hourse have passed and the person has not yet met reminded again.
+                // 12 hours have passed and the person has not yet met reminded again.
                 // send a reminder email
                 $link = route('web.set_password', [$token]);
 
-                Mail::to($email)->send(new Reminder15Mins($name, $link));
+                Mail::to($email)->send(new Reminder12Hours($name, $link));
 
                 DB::update('update password_resets set last_reminder = "12_hours" where token = ? and email = ?', [$token, $email]);
             } elseif ($rec->last_reminder === '12_hours' && $time->addHours(24) < $now) {
