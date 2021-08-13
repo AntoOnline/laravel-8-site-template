@@ -14,6 +14,8 @@ What do you get with this Laravel skeleton app:
 -	Responsive email templates - Thanks to [leemunroe](https://github.com/leemunroe/responsive-html-email-template).
 -	Cron service - Auto delete stale account verifications.
 
+**For fellow Docker fans** - This project comes with a Dockerfile that is configured to run Apache with gzip, headers, expiry, and rewrite modules enabled.
+
 Get all of this in 5 minutes:
 
 ![](https://anto.online/wp-content/uploads/2021/08/laravel-skeleton-project.gif)
