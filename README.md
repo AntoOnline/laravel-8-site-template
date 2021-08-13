@@ -11,6 +11,10 @@ What do you get with this Laravel skeleton app:
 -	Delete user account – Delete your account.
 -	Email integration – Integrate effortlessly with your favorite email provider.
 -	Google reCAPTCHA v3 – Integrate with Google reCAPTCHA and only allow humans.
+-	Responsive email templates - Thanks to [leemunroe](https://github.com/leemunroe/responsive-html-email-template).
+-	Cron service - Auto delete stale account verifications.
+
+Get all of this in 5 minutes:
 
 ![](https://anto.online/wp-content/uploads/2021/08/laravel-skeleton-project.gif)
 
