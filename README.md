@@ -35,6 +35,11 @@ Next, open your `.env` file and set the following variables:
 
 This app uses google reCaptcha v3. Visit: https://www.google.com/recaptcha/about/ to get your keys.
 
+Note: When loading your site on the localhost, use "localhost" and not "127.0.0.1" to avoid:
+```
+Localhost is not in the list of supported domains for this site key.
+```
+
 ### For MAIL_* 
 
 Provide your email server details for the site to send sign up emails.
