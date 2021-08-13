@@ -1,16 +1,36 @@
-# Laravel Basic Auth App
-The purpose of this app is to provide a basic auth site on top of which you can build your awesome Laravel projects.
+# Laravel Skeleton
+This Laravel skeleton aims to provide a site on top of which you can build your awesome Laravel projects. As a result, you will save days of development and get going quickly!
+What do you get with this Laravel skeleton app:
+-	User registration – Provide your name and email to receive a registration link.
+-	User login – Provide your email and password to log in.
+-	User logout – Logout securely.
+-	Password change – Provide your old password to change to a new password.
+-	Password reminder – Provide your email to get a password reminder.
+-	User event log – See when you signed up, changed your password, and more.
+-	Dark mode settings – Follow the dark side and change your theme.
+-	Delete user account – Delete your account.
+-	Email integration – Integrate effortlessly with your favorite email provider.
+-	Google reCAPTCHA v3 – Integrate with Google reCAPTCHA and only allow humans.
 
 ## Prerequisites
-This guide assumes you have composer and git set up. You can get composer from [here](https://getcomposer.org/), and a guide to setting up git [here](https://docs.github.com/en/get-started/quickstart/set-up-git).  
-This guide also assumes you have a working database made for this app.
+This guide assumes you have:
+- Composer installed. You can get composer from [here](https://getcomposer.org/).
+- Git installed. You can get Git from [here](https://docs.github.com/en/get-started/quickstart/set-up-git).  
+- A Working MySQL database.
+- An SMTP email address.
+- Google reCAPTCHA configured.
+
 ## Installation
+
+Clone the code from our repo:
 ```
 git clone https://github.com/RepositoriumCodice/laravel-8-site-template
 cd laravel-8-site-template
 composer install
 ```
-## Setup
+
+## Configure Your App
+
 Copy and rename the file `.env.example` to `.env`.
 
 Next, open your `.env` file and set the following variables:
@@ -48,7 +68,9 @@ Provide your email server details for the site to send sign up emails.
 
 Provide your MySQL database details for the site to store user details.
 
-Run the migrations:
+## Final Laravel Setup
+
+Run the Laravel migration tool:
 ```
 php artisan migrate
 ```
@@ -57,15 +79,15 @@ Create an app key:
 ```
 php artisan key:generate
 ```
+## Running Your App
 
-
-
-## Running
 From your app root directory, run:
+
 ```
 php artisan serve
 ```
-Go to `127.0.0.1:8000` to view the app.
+Go to `localhost:8000` to view the app.
+
 If you have set a different siteurl, go to that url.
 
 Login credentials:  
