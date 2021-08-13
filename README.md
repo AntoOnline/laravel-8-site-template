@@ -32,6 +32,12 @@ Run the migrations:
 ```
 php artisan migrate
 ```
+
+Create an app key:
+```
+php artisan key:generate
+```
+
 ## Captcha
 This app uses google reCaptcha. The variables `CAPTCHA_SITEKEY` and `CAPTCHA_SECRET` are developer keys for testing only. For production version, use your own secure keys.
 
