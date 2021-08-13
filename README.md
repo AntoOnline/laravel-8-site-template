@@ -12,6 +12,8 @@ What do you get with this Laravel skeleton app:
 -	Email integration – Integrate effortlessly with your favorite email provider.
 -	Google reCAPTCHA v3 – Integrate with Google reCAPTCHA and only allow humans.
 
+![Laravel Skeleton Project Demo(https://anto.online/wp-content/uploads/2021/08/laravel-skeleton-project.gif)
+
 ## Prerequisites
 This guide assumes you have:
 - Composer installed. You can get composer from [here](https://getcomposer.org/).
