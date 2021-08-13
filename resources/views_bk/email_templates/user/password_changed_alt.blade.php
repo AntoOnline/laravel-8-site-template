@@ -1,1 +1,0 @@
-Your password with {{$siteName}} has been changed successfully.
