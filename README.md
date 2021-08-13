@@ -12,6 +12,7 @@ composer install
 ```
 ## Setup
 Copy and rename the file `.env.example` to `.env`.
+
 Next, open your `.env` file and set the following variables:
 - `APP_NAME`
 - `DB_CONNECTION` (if different than mysql)
@@ -27,6 +28,20 @@ Next, open your `.env` file and set the following variables:
 - `MAIL_PASSWORD`
 - `MAIL_ENCRYPTION`
 - `MAIL_FROM_ADDRESS`
+- `CAPTCHA_SITEKEY`
+- `CAPTCHA_SECRET`
+
+### For CAPTCHA_SITEKEY and CAPTCHA_SECRET
+
+This app uses google reCaptcha v3. Visit: https://www.google.com/recaptcha/about/ to get your keys.
+
+### For MAIL_* 
+
+Provide your email server details for the site to send sign up emails.
+
+### For DB_*
+
+Provide your MySQL database details for the site to store user details.
 
 Run the migrations:
 ```
@@ -38,8 +53,7 @@ Create an app key:
 php artisan key:generate
 ```
 
-## Captcha
-This app uses google reCaptcha. The variables `CAPTCHA_SITEKEY` and `CAPTCHA_SECRET` are developer keys for testing only. For production version, use your own secure keys.
+
 
 ## Running
 From your app root directory, run:
