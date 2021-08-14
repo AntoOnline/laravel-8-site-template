@@ -76,6 +76,24 @@ Provide your email server details for the site to send sign up emails.
 
 Provide your MySQL database details for the site to store user details.
 
+## Setting up laravel cron
+
+This app comes with a scheduler which is also used to send emails reminders and notifications.
+
+### For testing
+
+```
+php artisan schedule:work
+```
+Keep this terminal window open while development and testing.
+
+### For crontab (Linux)
+
+```
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
+If you want to log the results of each schedule, replace `/dev/null 2>&1` with your log file path.
+
 ## Final Laravel Setup
 
 Run the Laravel migration tool:
